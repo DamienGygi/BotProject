@@ -87,39 +87,34 @@ class RPSBot:
         """Send an error message to the channel, if a bad input was entered"""
         error = "This command is not found. Use Help for list of commands"
         return await self.sendText(error, channel_id, user_name, team_id)
-		
-	#Function found on Github, created by CyrillManuel
+	
+
     async def process(self, message):
         """ Message treatment""" 
         if message.get('type') == 'message':
 
-            # Channel-related entries
+            # Channel ID
             channel_id = message.get('channel')
-            channel_name = await api_call('channels.info', 							 # gets the name of the channel for given id
-                                          {'channel': message.get('channel')})  	 # doesn't work all the time
+			
+            # Team ID
+            team_id = self.rtm['team']['id']  										 
 
-            # Team-related entries
-            team_id = self.rtm['team']['id']  										 # gets id of the active team
-            team_name = self.rtm['team']['name']  									 # gets name of the active team
-
-            # User-related entries
+            # User ID and Name
             user_id = message.get('user')
-            user_name = await api_call('users.info', 								 # gets user name based on id
-                                       {'user': message.get('user')})
+            user_name = await api_call('users.info',{'user': message.get('user')})
 
-            # Self-related entries
-            bot_id = self.rtm['self']['id']  										 # gets id of self, meaning the bot.
-            bot_name = self.rtm['self']['name'] 									 # gets its name
-
-            # message related entries
+            # Bot ID (self ID)
+            bot_id = self.rtm['self']['id'] 
+			
+            # Message
             message_text = message.get('text')
 
-            # Splits message in half												 # Recipient on the left side, and the core text on the other.
+            # Get content from Message												 
             if (isinstance(message_text, str)):
-                message_split = message_text.split(':', 1)  						 # Generate an exception if type is different than text.
+                message_split = message_text.split(':', 1)  						 
                 recipient = message_split[0].strip()
-
-                if len(message_split) > 0 and recipient == '<@{0}>'.format(bot_id):  # If message is adressed to our bot
+                # If the recipient for this message is your bot
+                if len(message_split) > 0 and recipient == '<@{0}>'.format(bot_id):  
                     core_text = message_split[1].strip()
                     action = self.api.get(core_text) or self.error
                     print(await action(channel_id, user_name, team_id))
