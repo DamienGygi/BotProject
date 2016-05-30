@@ -39,13 +39,13 @@ class RPSBot:
     async def calculate(self, channel_id, user_name, team_id, player_choice):
             """Calculate who is the winner between the Player and the bot"""
             bot_choice = choice(range(3))
-            possibilities = ("Rock", "Paper", "Scissors")
+            possibilities = ("hammer", "spiral_note_pad", "scissors")
             if player_choice== bot_choice:
-                return await self.sendText("\nYou chose: {} and the bot chose: {}, it's player_choicetie".format(possibilities[player_choice], possibilities[bot_choice]), channel_id, user_name, team_id)
+                return await self.sendText("\nYou chose: :{}: and the bot chose: :{}:, it's a tie".format(possibilities[player_choice], possibilities[bot_choice]), channel_id, user_name, team_id)
             elif (player_choice>bot_choice and bot_choice+1==player_choice) or (player_choice<bot_choice and player_choice+bot_choice==2):
-                return await self.sendText("\nYou chose: {} and the bot chose: {}, so you win".format(possibilities[player_choice], possibilities[bot_choice]), channel_id, user_name, team_id)
+                return await self.sendText("\nYou chose: :{}: and the bot chose: :{}:, so you win".format(possibilities[player_choice], possibilities[bot_choice]), channel_id, user_name, team_id)
             else:
-                return await self.sendText("\nYou chose: {} and the bot chose: {}, so you lose".format(possibilities[player_choice], possibilities[bot_choice]), channel_id, user_name, team_id)
+                return await self.sendText("\nYou chose: :{}: and the bot chose: :{}:, so you lose".format(possibilities[player_choice], possibilities[bot_choice]), channel_id, user_name, team_id)
 				
     async def paper(self, channel_id, user_name, team_id):
             """ Paper was selected from player """
