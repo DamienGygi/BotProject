@@ -2,7 +2,7 @@
 #INF2 DLM A
 #HE ARC année 2015-2016
 
-"""Sample Rock Paper Scissors Slackbot"""
+"""Sample Hammer Paper Scissors Slackbot"""
 import asyncio
 import json
 import aiohttp
@@ -12,14 +12,14 @@ from api import api_call
 from config import DEBUG, TOKEN
 from random import choice
 
-class RPSBot:
+class HPSBot:
     
     def __init__(self, token=TOKEN):
         self.token = token
         self.rtm = None
         self.api = {
 		    "scissors":self.scissors,
-		    "rock":self.rock,
+		    "hammer":self.hammer,
 		    "paper":self.paper,
             "play": self.play,
             "help": self.help
@@ -51,8 +51,8 @@ class RPSBot:
             """ Paper was selected from player """
             return await self.calculate(channel_id, user_name, team_id,1)
            	
-    async def rock(self, channel_id, user_name, team_id):
-            """ Rock was selected from player """	
+    async def hammer(self, channel_id, user_name, team_id):
+            """ Hammer was selected from player """	
             return await self.calculate(channel_id, user_name, team_id,0)
 							
     async def scissors(self, channel_id, user_name, team_id):
@@ -61,14 +61,15 @@ class RPSBot:
 			
     async def help(self, channel_id, user_name, team_id):
         """Displays the help message to the channel"""
-        helpMessage = "Welcome to our RPSBot! \n" \
-                      "This bot is here for you to have fun in your spare time. \n" \
-                      "There is a list of commands : \n" \
+        helpMessage = "Welcome to our HammerPaperScissors Slack Bot! \n" \
+                      "This bot was created for your spare time \n" \
+                      "Here is a list of all existing commands: \n" \
                       " - play : is the bot ready to play. \n" \
-                      " - paper : selected paper for game. \n" \
-                      " - rock : selected rock for game. \n" \
-                      " - scissors : selected scissors for game. \n" \
-                      "Have fun !"
+                      " - paper : select paper for the next game. \n" \
+                      " - hammer : select hammer for the next game. \n" \
+                      " - scissors : select scissors for the next game. \n" \
+					  " You can also use Hammer, Paper, Scissors emojis to play \n" \
+                      "Have fun ! "
         return await self.sendText(helpMessage, channel_id, user_name, team_id)
 
     async def connect(self):
@@ -85,7 +86,7 @@ class RPSBot:
 		
     async def error(self, channel_id, user_name, team_id):
         """Send an error message to the channel, if a bad input was entered"""
-        error = "This command is not found. Use Help for list of commands"
+        error = ":warning: This command is not found. Use the help for more infos about HPSBot."
         return await self.sendText(error, channel_id, user_name, team_id)
 	
 
@@ -116,6 +117,10 @@ class RPSBot:
                 # If the recipient for this message is your bot
                 if len(message_split) > 0 and recipient == '<@{0}>'.format(bot_id):  
                     core_text = message_split[1].strip()
+                    if core_text.startswith(":") and core_text.endswith(":"):
+                        core_text=core_text[1:-1]
+                        if core_text=="spiral_note_pad":
+                            core_text="paper"
                     action = self.api.get(core_text) or self.error
                     print(await action(channel_id, user_name, team_id))
 
@@ -124,6 +129,6 @@ class RPSBot:
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.set_debug(DEBUG)
-    bot = RPSBot(TOKEN)
+    bot = HPSBot(TOKEN)
     loop.run_until_complete(bot.connect())
     loop.close()
