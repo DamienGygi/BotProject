@@ -1,12 +1,12 @@
 from random import choice
 textFromBot = input("Want play with me ?")
 if textFromBot=='Yes':
-			coup = ("ROCK", "PAPER", "SCISSORS")
+			coup = ("HAMMER", "PAPER", "SCISSORS")
 			print("\n------------------------------------")
-			print("Rock - Paper - Scissors")
+			print("Hammer - Paper - Scissors")
 			print("------------------------------------\n")
 		 
-			a = int(input("Make your choice:\n0: Rock\n1: Paper\n2: Scissors\n-> "))
+			a = int(input("Make your choice:\n0: Hammer\n1: Paper\n2: Scissors\n-> "))
 			b = choice(range(3))
 		 
 			print("\nYOU:{} VS {}:BOT".format(coup[a], coup[b]))
