@@ -5,4 +5,4 @@ HPSBot allows you to play the famous game Rock Paper Scissors. We chose Hammer P
 
 How is it works ?
 -----------------
-Blabla
+You just need to create a Slack account at <https://slack.com/>`_ and to add in you channel botGygi. The you just need to look what for commmands exists for the bot. 
