@@ -14,10 +14,5 @@ Contents:
 	Introduction<intro>
 	Fonctions<function>
 
-Indices and tables
-==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
