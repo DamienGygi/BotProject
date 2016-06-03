@@ -19,6 +19,6 @@ Avaiable commands:
 
 you can also use slack emojis to run the game
 
-* :scissors: (will chose scissors as your choice)
-* :hammer: (will chose hammer as your choice)
-* :spiral_note_pad: (will chose paper as your choice)
+* ::scissors: (will chose scissors as your choice)
+* ::hammer: (will chose hammer as your choice)
+* ::spiral_note_pad: (will chose paper as your choice)
