@@ -13,7 +13,7 @@ from config import DEBUG, TOKEN
 from random import choice
 
 class HPSBot:
-    
+
     def __init__(self, token=TOKEN):
         self.token = token
         self.rtm = None
@@ -24,7 +24,7 @@ class HPSBot:
             "play": self.play,
             "help": self.help
         }
-		
+
     async def sendText(self, message, channel_id, user_name, team_id):
         """Send the text message to the channel"""
         return await api_call('chat.postMessage', {"type": "message",
@@ -35,30 +35,37 @@ class HPSBot:
     async def play(self, channel_id, user_name, team_id):
         """Return if the Robot is Ready to play """
         return await self.sendText('The Robot is ready to play !', channel_id, user_name, team_id)
-	
+
+    async def sendRes(self,text, channel_id, user_name, team_id):
+        return await self.sendText(text, channel_id, user_name, team_id)
+
     async def calculate(self, channel_id, user_name, team_id, player_choice):
             """Calculate who is the winner between the Player and the bot"""
             bot_choice = choice(range(3))
             possibilities = ("hammer", "spiral_note_pad", "scissors")
+            p_choice = possibilities[player_choice]
+            b_choice = possibilities[bot_choice]
+            text ="\nYou chose: :{}: and the bot chose: :{}:, ".format(p_choice,b_choice)
             if player_choice== bot_choice:
-                return await self.sendText("\nYou chose: :{}: and the bot chose: :{}:, it's a tie".format(possibilities[player_choice], possibilities[bot_choice]), channel_id, user_name, team_id)
+                text += "it's a tie"
             elif (player_choice>bot_choice and bot_choice+1==player_choice) or (player_choice<bot_choice and player_choice+bot_choice==2):
-                return await self.sendText("\nYou chose: :{}: and the bot chose: :{}:, so you win".format(possibilities[player_choice], possibilities[bot_choice]), channel_id, user_name, team_id)
+                text += " so you win"
             else:
-                return await self.sendText("\nYou chose: :{}: and the bot chose: :{}:, so you lose".format(possibilities[player_choice], possibilities[bot_choice]), channel_id, user_name, team_id)
-				
+                text += " so you lose"
+            return await self.sendRes(text, channel_id, user_name, team_id)
+
     async def paper(self, channel_id, user_name, team_id):
             """ Paper was selected from player """
             return await self.calculate(channel_id, user_name, team_id,1)
-           	
+
     async def hammer(self, channel_id, user_name, team_id):
             """ Hammer was selected from player """	
             return await self.calculate(channel_id, user_name, team_id,0)
-							
+
     async def scissors(self, channel_id, user_name, team_id):
             """ Scissors was selected from player """	
             return await self.calculate(channel_id, user_name, team_id,2)	
-			
+
     async def help(self, channel_id, user_name, team_id):
         """Displays the help message to the channel"""
         helpMessage = "Welcome to our HammerPaperScissors Slack Bot! \n" \
@@ -83,12 +90,11 @@ class HPSBot:
                     assert msg.tp == aiohttp.MsgType.text
                     message = json.loads(msg.data)
                     asyncio.ensure_future(self.process(message))	
-		
+
     async def error(self, channel_id, user_name, team_id):
         """Send an error message to the channel, if a bad input was entered"""
         error = ":warning: This command is not found. Use the help for more infos about HPSBot."
         return await self.sendText(error, channel_id, user_name, team_id)
-	
 
     async def process(self, message):
         """ Message treatment""" 
@@ -96,7 +102,7 @@ class HPSBot:
 
             # Channel ID
             channel_id = message.get('channel')
-			
+
             # Team ID
             team_id = self.rtm['team']['id']  										 
 
@@ -106,7 +112,7 @@ class HPSBot:
 
             # Bot ID (self ID)
             bot_id = self.rtm['self']['id'] 
-			
+
             # Message
             message_text = message.get('text')
 
@@ -124,8 +130,7 @@ class HPSBot:
                     action = self.api.get(core_text) or self.error
                     print(await action(channel_id, user_name, team_id))
 
-    
-	
+
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.set_debug(DEBUG)
