@@ -13,12 +13,12 @@ Just make an github account and go at <https://github.com/DamienGygi/BotProject>
 
 Avaiable commands:
 ------------------
-*hammer (will chose hammer as your choice)
-*scissors (will chose scissors as your choice)
-*paper (will chose paper as your choice)
+* hammer (will chose hammer as your choice)
+* scissors (will chose scissors as your choice)
+* paper (will chose paper as your choice)
 
 you can also use slack emojis to run the game
 
-*:scissors: (will chose scissors as your choice)
-*:hammer: (will chose hammer as your choice)
-*:paper: (will chose paper as your choice)
+* :scissors: (will chose scissors as your choice)
+* :hammer: (will chose hammer as your choice)
+* :spiral_note_pad: (will chose paper as your choice)
