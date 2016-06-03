@@ -19,6 +19,6 @@ setup(
         'docs': ('Sphinx', 'sphinx_rtd_theme'),
     },
 	license='MIT',
-    packages=['moviequizz'],
+    packages=['hpsbot'],
     zip_safe=False
 ) 
