@@ -23,4 +23,5 @@ you can also use slack emojis to run the game
 * : :hammer: (will chose hammer as your choice)
 * : :spiral_note_pad: (will chose paper as your choice)
 
-Toute ces commandes doivent être précédé 
+Toute ces commandes doivent être précédé de @botgygi: qui ferra référence au bot désiré
+
